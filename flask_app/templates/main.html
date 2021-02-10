@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block content %}
+	<h1 style="color:blue;">Avto.net - nastavi e-mail obvestilo</h1>
+
+	<div class="content-section">
+		<form method="POST" action="/car_user_input">
+			{{ form.hidden_tag() }}
+			<legend class="border-bottom mb-4">Izberi lastnosti avtomobila</legend>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					{% if form.brand.errors %}
+						{{ form.brand(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.brand.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.brand(class="form-control form-control-lg", placeholder="Vse znamke") }}
+					{% endif %}
+				</div>
+				<div class="form-group col-md-2">
+					{{ form.price_min(class="form-control form-control-lg", placeholder="Cena od") }}
+				</div>
+				<div class="form-group col-md-2">
+					{{ form.price_max(class="form-control form-control-lg", placeholder="Cena do") }}
+				</div>
+				<div class="form-group col-md-4">
+					{{ form.km_max(class="form-control form-control-lg", placeholder="Prevoženih km do") }}
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					{{ form.model(class="form-control form-control-lg", placeholder="Vse modeli") }}
+				</div>
+				<div class="form-group col-md-2">
+					{{ form.year_min(class="form-control form-control-lg", placeholder="Letnik od") }}
+				</div>
+				<div class="form-group col-md-2">
+					{{ form.year_max(class="form-control form-control-lg", placeholder="Letnik do") }}
+				</div>
+				<div class="form-group col-md-4">
+					{{ form.fuel(class="form-control form-control-lg", placeholder="Gorivo") }}
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-8">
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class="form-control form-control-lg", placeholder="E-mail naslov") }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="form-group" id="run-button">
+				{{ form.submit(class="btn btn-outline-info")}}
+			</div>
+
+		</form>
+	</div>
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script> -->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+ 	<script type="text/javascript">
+ 		/*
+ 		$(function() {
+			$('div#run-button').on('click', function(e) {
+				e.preventDefault()
+				$.getJSON('/car_user_input',
+					function(data) {
+						// do nothing
+					});
+					// window.location.href = "http://127.0.0.1:5000/";
+					return false;	
+				});
+			});
+			*/
+
+
+		let brand_select = document.getElementById('brand');
+		let model_select = document.getElementById('model');
+
+		brand_select.onchange = function() {
+			brand = brand_select.value;
+			console.log(brand);
+
+			fetch('/model/' + brand).then(function(response) {
+				response.json().then(function(data) {
+					let optionHTML = '';
+
+					for (let model of data.models) {
+						optionHTML += '<option value="' + model.id + '">' + model.model + '</option>';
+					}
+
+					model_select.innerHTML = optionHTML;
+				}); 
+			});
+		}
+	</script>
+{% endblock content %}
+
+
+
