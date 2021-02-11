@@ -19,31 +19,6 @@ import smtplib
 from email.message import EmailMessage
 import myEnvVal
 
-# enable headless chrome 
-# =============================================================================
-# class HeadlessChromeBot:
-#     def __init__(self):
-#         user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
-#         
-#         self.options = webdriver.ChromeOptions()
-#         self.options.headless = True
-#         self.options.add_argument(f'user-agent={user_agent}')
-#         self.options.add_argument("--window-size=1920,1080")
-#         self.options.add_argument('--ignore-certificate-errors')
-#         self.options.add_argument('--allow-running-insecure-content')
-#         self.options.add_argument("--disable-extensions")
-#         self.options.add_argument("--proxy-server='direct://'")
-#         self.options.add_argument("--proxy-bypass-list=*")
-#         self.options.add_argument("--start-maximized")
-#         self.options.add_argument('--disable-gpu')
-#         self.options.add_argument('--disable-dev-shm-usage')
-#         self.options.add_argument('--no-sandbox')
-#         self.driver = webdriver.Chrome(executable_path="chromedriver.exe", options=self.options)
-#         
-# 
-# HeadlessChromeBot()
-# =============================================================================
-
 user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
 
 server_path = True
@@ -52,21 +27,18 @@ if server_path:
 else:
     exec_path = "/Users/blazkranjcev/python_excercises/avto_net_scraper/flask_app/chromedriver"
 
-options = webdriver.ChromeOptions()
-options.headless = True
-options.add_argument(f'user-agent={user_agent}')
-options.add_argument("--window-size=1920,1080")
-options.add_argument('--ignore-certificate-errors')
-options.add_argument('--allow-running-insecure-content')
-options.add_argument("--disable-extensions")
-options.add_argument("--proxy-server='direct://'")
-options.add_argument("--proxy-bypass-list=*")
-options.add_argument("--start-maximized")
-options.add_argument('--disable-gpu')
-options.add_argument('--disable-dev-shm-usage')
-options.add_argument('--no-sandbox')
-driver = webdriver.Chrome(executable_path=exec_path, options=options)
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-gpu")
+driver = webdriver.Chrome(options=chrome_options)
 
+try:
+    driver.get("https://www.google.com")
+    print(f'Page title was {driver.title}')
+
+finally:
+    driver.quit()
+    
 def get_brands():
     driver = webdriver.Chrome('/Users/blazkranjcev/python_excercises/avto_net_scraper/chromedriver')
     url = "https://www.avto.net/"
