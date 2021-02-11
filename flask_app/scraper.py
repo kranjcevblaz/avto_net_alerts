@@ -8,6 +8,7 @@ Created on Tue Jan 26 19:41:44 2021
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 from datetime import date
 from datetime import timedelta
@@ -19,7 +20,7 @@ import smtplib
 from email.message import EmailMessage
 import myEnvVal
 
-user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
+# user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
 
 server_path = True
 if server_path:
@@ -28,9 +29,10 @@ else:
     exec_path = "/Users/blazkranjcev/python_excercises/avto_net_scraper/flask_app/chromedriver"
 
 chrome_options = webdriver.ChromeOptions()
+chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options, executable_path=exec_path)
 
 try:
     driver.get("https://www.google.com")
