@@ -19,6 +19,47 @@ import smtplib
 from email.message import EmailMessage
 import myEnvVal
 
+# enable headless chrome 
+# =============================================================================
+# class HeadlessChromeBot:
+#     def __init__(self):
+#         user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'
+#         
+#         self.options = webdriver.ChromeOptions()
+#         self.options.headless = True
+#         self.options.add_argument(f'user-agent={user_agent}')
+#         self.options.add_argument("--window-size=1920,1080")
+#         self.options.add_argument('--ignore-certificate-errors')
+#         self.options.add_argument('--allow-running-insecure-content')
+#         self.options.add_argument("--disable-extensions")
+#         self.options.add_argument("--proxy-server='direct://'")
+#         self.options.add_argument("--proxy-bypass-list=*")
+#         self.options.add_argument("--start-maximized")
+#         self.options.add_argument('--disable-gpu')
+#         self.options.add_argument('--disable-dev-shm-usage')
+#         self.options.add_argument('--no-sandbox')
+#         self.driver = webdriver.Chrome(executable_path="chromedriver.exe", options=self.options)
+#         
+# 
+# HeadlessChromeBot()
+# =============================================================================
+
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
+
+options = webdriver.ChromeOptions()
+options.headless = True
+options.add_argument(f'user-agent={user_agent}')
+options.add_argument("--window-size=1920,1080")
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--allow-running-insecure-content')
+options.add_argument("--disable-extensions")
+options.add_argument("--proxy-server='direct://'")
+options.add_argument("--proxy-bypass-list=*")
+options.add_argument("--start-maximized")
+options.add_argument('--disable-gpu')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(executable_path="/Users/blazkranjcev/python_excercises/avto_net_scraper/flask_app/chromedriver", options=options)
 
 def get_brands():
     driver = webdriver.Chrome('/Users/blazkranjcev/python_excercises/avto_net_scraper/chromedriver')
@@ -58,9 +99,9 @@ def get_dropdown_model_options(brand):
     driver.close()
     return model_options
 
-def run_scraper(brand, model, price_min='0', price_max='999999', year_min='0', year_max='2090', km_max='9999999', fuel='0'):
+def run_scraper(brand, model, price_min='0', price_max='999999', year_min='0', year_max='2090', km_max='9999999', fuel='vsa goriva'):
     fuel_type_dict = {'vsa goriva': '0', 'bencin': '201', 'diesel': '202', 'plin': '203', 'hibridni pogon': '205', 'e-pogon': '207'}
-    driver = webdriver.Chrome('/Users/blazkranjcev/python_excercises/avto_net_scraper/chromedriver')
+    # driver = webdriver.Chrome('/Users/blazkranjcev/python_excercises/avto_net_scraper/chromedriver')
     search_by_string = '4x4'
 
     url_first = "https://www.avto.net/Ads/results.asp?znamka={brand}&model={model}&modelID=&tip=katerikoli%20tip&znamka2=&model2=&tip2=katerikoli%20tip&znamka3=&model3=&tip3=katerikoli%20tip&cenaMin={price_min}&cenaMax={price_max}&letnikMin={year_min}&letnikMax={year_max}&bencin={fuel}&starost2=999&oblika=0&ccmMin=0&ccmMax=99999&mocMin=&mocMax=&kmMin=0&kmMax={km_max}&kwMin=0&kwMax=999&motortakt=0&motorvalji=0&lokacija=0&sirina=0&dolzina=&dolzinaMIN=0&dolzinaMAX=100&nosilnostMIN=0&nosilnostMAX=999999&lezisc=&presek=0&premer=0&col=0&vijakov=0&EToznaka=0&vozilo=&airbag=&barva=&barvaint=&EQ1=1000000000&EQ2=1000000000&EQ3=1000000000&EQ4=100000000&EQ5=1000000000&EQ6=1000000000&EQ7=1110100120&EQ8=1010000001&EQ9=1000000000&KAT=1010000000&PIA=&PIAzero=&PSLO=&akcija=0&paketgarancije=&broker=0&prikazkategorije=0&kategorija=0&ONLvid=0&ONLnak=0&zaloga=10&arhiv=0&presort=3&tipsort=DESC&stran=1"
@@ -232,3 +273,6 @@ def main_func(brand, model, price_min, price_max, year_min, year_max, km_max, fu
     myEnvVal.setVar()
     scraper_data = run_scraper(brand, model, price_min, price_max, year_min, year_max, km_max, fuel)
     send_email(scraper_data['brand'], scraper_data['model'], scraper_data['new_cars'], email_address)
+    
+if __name__ == '__main__':
+    # run_scraper('Renault', 'Kangoo')
