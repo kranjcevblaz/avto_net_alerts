@@ -274,5 +274,3 @@ def main_func(brand, model, price_min, price_max, year_min, year_max, km_max, fu
     scraper_data = run_scraper(brand, model, price_min, price_max, year_min, year_max, km_max, fuel)
     send_email(scraper_data['brand'], scraper_data['model'], scraper_data['new_cars'], email_address)
     
-if __name__ == '__main__':
-    # run_scraper('Renault', 'Kangoo')
