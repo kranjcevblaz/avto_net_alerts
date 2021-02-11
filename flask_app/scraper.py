@@ -46,6 +46,12 @@ import myEnvVal
 
 user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
 
+server_path = True
+if server_path:
+    exec_path = "/home/blazkranjcev97/avto_net_alerts/flask_app/chromedriver"
+else:
+    exec_path = "/Users/blazkranjcev/python_excercises/avto_net_scraper/flask_app/chromedriver"
+
 options = webdriver.ChromeOptions()
 options.headless = True
 options.add_argument(f'user-agent={user_agent}')
@@ -59,7 +65,7 @@ options.add_argument("--start-maximized")
 options.add_argument('--disable-gpu')
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--no-sandbox')
-driver = webdriver.Chrome(executable_path="/Users/blazkranjcev/python_excercises/avto_net_scraper/flask_app/chromedriver", options=options)
+driver = webdriver.Chrome(executable_path=exec_path, options=options)
 
 def get_brands():
     driver = webdriver.Chrome('/Users/blazkranjcev/python_excercises/avto_net_scraper/chromedriver')
