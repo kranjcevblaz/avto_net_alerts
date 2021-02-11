@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = 'c20b592005f9e01b3435eb1a472455ba'
 @app.route('/', methods=['GET', 'POST'])
 def config_form():
     form = ConfigForm()
-    # form.model.choices = model_choices
+
     if form.validate_on_submit():
         flash('Lastnosti avtomobila uspešno vnešene.', 'success')
                                        
@@ -67,21 +67,7 @@ def car_user_input():
         
     scraper.main_func(brand, model, price_min, price_max, year_min, year_max, km_max, fuel, email_address)   
     return redirect('/')
-# =============================================================================
-# @app.route('/background_process_test', methods=['GET', 'POST'])
-# def background_process_test():
-#     # form = ConfigForm()
-#     # model = request.form['model_test']
-#     # form_data = request.form
-#     # brand = request.form['brand_test']
-#     # brand = request.form.get('brand')
-#     # test_text = request.form['test_text1']
-#     # print(test_text, file=sys.stderr)
-#     # brand = request.form['brand']
-#     scraper.run_scraper(brand, model)
-#     # subprocess.call(['python', 'scraper.py', brand, model])
-#     return "some text"
-# =============================================================================
+
     
 if __name__ == '__main__':
     app.run(debug=True)
